@@ -11,7 +11,7 @@
   "scripts": {
     "build": "babel src/ --out-dir lib/ --source-maps",
     "watch": "babel src/ --out-dir lib/ --watch --source-maps",
-    "test": "ava --verbose --require @babel/register",
+    "test": "jest",
     "lint": "eslint --ext .js --ignore-path .gitignore .",
     "lint:fix": "eslint --fix --ext .js --ignore-path .gitignore .",
     "prepare": "npm run build"
@@ -23,12 +23,14 @@
     "@babel/core": "^7.6.4",
     "@babel/preset-env": "^7.6.3",
     "@babel/register": "^7.6.2",
-    "ava": "^2.4.0",
+    "babel-jest": "^24.9.0",
     "eslint": "^6.5.1",
     "eslint-config-standard": "^14.1.0",
     "eslint-plugin-import": "^2.18.2",
+    "eslint-plugin-jest": "^22.19.0",
     "eslint-plugin-node": "^10.0.0",
     "eslint-plugin-promise": "^4.2.1",
-    "eslint-plugin-standard": "^4.0.1"
+    "eslint-plugin-standard": "^4.0.1",
+    "jest": "^24.9.0"
   }
 }

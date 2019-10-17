@@ -1,60 +1,81 @@
 import { levenshtein, ngram, ngramDiceCoefficient } from '../src'
-import test from 'ava'
 
-test('levenshtein', t => {
-  let tokens1 = ['this', 'is', 'an', 'apple', '.']
-  let tokens2 = ['this', 'is', 'an', 'apple', '.']
-  let score = levenshtein(tokens1, tokens2)
-  t.true(score === 100)
+describe('index.js', () => {
+  describe('levenshtein', () => {
+    it('exact match', () => {
+      const tokens1 = ['this', 'is', 'an', 'apple', '.']
+      const tokens2 = ['this', 'is', 'an', 'apple', '.']
+      const score = levenshtein(tokens1, tokens2)
+      expect(score).toBe(100)
+    })
 
-  tokens1 = []
-  tokens2 = ['this', 'is', 'an', 'apple', '.']
-  score = levenshtein(tokens1, tokens2)
-  t.true(score === 0)
+    it('case only difference', () => {
+      const tokens1 = ['I', 'am', 'a', 'student', '.']
+      const tokens2 = ['i', 'am', 'a', 'student', '.']
+      const score = levenshtein(tokens1, tokens2)
+      expect(score).toBe(99)
+    })
 
-  tokens1 = ['I', 'am', 'a', 'student', '.']
-  tokens2 = ['i', 'am', 'a', 'student', '.']
-  score = levenshtein(tokens1, tokens2)
-  t.true(score === 99)
+    it('original tokens empty', () => {
+      const tokens1 = []
+      const tokens2 = ['this', 'is', 'an', 'apple', '.']
+      const score = levenshtein(tokens1, tokens2)
+      expect(score).toBe(0)
+    })
 
-  tokens1 = ['I', 'am', 'a', 'student', '.']
-  tokens2 = []
-  score = levenshtein(tokens1, tokens2)
-  t.true(score === 0)
+    it('new tokens empty', () => {
+      const tokens1 = ['I', 'am', 'a', 'student', '.']
+      const tokens2 = []
+      const score = levenshtein(tokens1, tokens2)
+      expect(score).toBe(0)
+    })
 
-  tokens1 = []
-  tokens2 = []
-  score = levenshtein(tokens1, tokens2)
-  t.true(score === 100)
+    it('both tokens empty', () => {
+      const tokens1 = []
+      const tokens2 = []
+      const score = levenshtein(tokens1, tokens2)
+      expect(score).toBe(100)
+    })
 
-  tokens1 = ['I', 'am', 'a', 'student', '.']
-  tokens2 = ['i', 'am', 'a', 'doctor', '.']
-  score = levenshtein(tokens1, tokens2)
-  t.true(score === 60)
-})
+    it('fuzzy match', () => {
+      const tokens1 = ['I', 'am', 'a', 'student', '.']
+      const tokens2 = ['i', 'am', 'a', 'doctor', '.']
+      const score = levenshtein(tokens1, tokens2)
+      expect(score).toBe(60)
+    })
+  })
 
-test('ngram', t => {
-  const text = 'This is an apple.'
-  const expected = ['thi', 'his', 'is ', 's i',
-    ' is', 'is ', 's a', ' an', 'an ', 'n a',
-    ' ap', 'app', 'ppl', 'ple', 'le.', 'e.']
-  const tokens = ngram(text, 3)
-  t.true(tokens.toString() === expected.toString())
-})
+  describe('ngram', () => {
+    it('3-gram', () => {
+      const text = 'This is an apple.'
+      const expected = ['thi', 'his', 'is ', 's i',
+        ' is', 'is ', 's a', ' an', 'an ', 'n a',
+        ' ap', 'app', 'ppl', 'ple', 'le.', 'e.']
+      const tokens = ngram(text, 3)
+      expect(tokens.toString() === expected.toString()).toBeTruthy()
+    })
+  })
 
-test('ngramDiceCoefficient', t => {
-  let text1 = 'I am a student.'
-  let text2 = 'I am a student.'
-  let score = ngramDiceCoefficient(text1, text2)
-  t.true(score === 100)
+  describe('ngramDiceCoefficient', () => {
+    it('exact match', () => {
+      const text1 = 'I am a student.'
+      const text2 = 'I am a student.'
+      const score = ngramDiceCoefficient(text1, text2)
+      expect(score).toBe(100)
+    })
 
-  text1 = 'i am a student.'
-  text2 = 'I am a student.'
-  score = ngramDiceCoefficient(text1, text2)
-  t.true(score === 99)
+    it('case-only difference', () => {
+      const text1 = 'i am a student.'
+      const text2 = 'I am a student.'
+      const score = ngramDiceCoefficient(text1, text2)
+      expect(score).toBe(99)
+    })
 
-  text1 = 'There is an apple on the table in the green house.'
-  text2 = 'There is an apple on the desk in the green house.'
-  score = ngramDiceCoefficient(text1, text2)
-  t.true(score === 87)
+    it('fuzzy match', () => {
+      const text1 = 'There is an apple on the table in the green house.'
+      const text2 = 'There is an apple on the desk in the green house.'
+      const score = ngramDiceCoefficient(text1, text2)
+      expect(score).toBe(87)
+    })
+  })
 })
