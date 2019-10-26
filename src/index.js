@@ -1,3 +1,10 @@
+/**
+ * Calculate a levenshtein distance between two arrays of tokens.
+ *
+ * @param {Array.<string>} tokensA tokens
+ * @param {Array.<string>} tokensB tokens
+ * @returns {number} levenshtein distance represented as a percentage normalized by the length of the longer one of the two tokens
+ */
 export function levenshtein (tokensA, tokensB) {
   const tokens1 = tokensA.filter(t => t)
   const tokens2 = tokensB.filter(t => t)
@@ -34,6 +41,13 @@ export function levenshtein (tokensA, tokensB) {
   return Math.floor((100 * (longest - matP[n])) / longest)
 }
 
+/**
+ * Convert text into n grams
+ *
+ * @param {string} text text
+ * @param {number} n number of grams
+ * @returns {Array.<string>} An array of grams
+ */
 export function ngram (text, n) {
   const grams = []
   let i
@@ -46,6 +60,13 @@ export function ngram (text, n) {
   return grams
 }
 
+/**
+ * Calculate a dice coefficient between two strings
+ *
+ * @param {string} text1 text
+ * @param {string} text2 text
+ * @returns {number} dice coefficient
+ */
 export function ngramDiceCoefficient (text1, text2) {
   if (text1 === text2) {
     return 100
