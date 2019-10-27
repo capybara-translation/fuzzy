@@ -17,7 +17,7 @@ describe('index.js', () => {
     })
 
     it('original tokens empty', () => {
-      const tokens1 = []
+      const tokens1: string[] = []
       const tokens2 = ['this', 'is', 'an', 'apple', '.']
       const score = levenshtein(tokens1, tokens2)
       expect(score).toBe(0)
@@ -25,14 +25,14 @@ describe('index.js', () => {
 
     it('new tokens empty', () => {
       const tokens1 = ['I', 'am', 'a', 'student', '.']
-      const tokens2 = []
+      const tokens2: string[] = []
       const score = levenshtein(tokens1, tokens2)
       expect(score).toBe(0)
     })
 
     it('both tokens empty', () => {
-      const tokens1 = []
-      const tokens2 = []
+      const tokens1: string[] = []
+      const tokens2: string[] = []
       const score = levenshtein(tokens1, tokens2)
       expect(score).toBe(100)
     })

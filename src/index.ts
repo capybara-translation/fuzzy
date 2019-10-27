@@ -5,7 +5,7 @@
  * @param {Array.<string>} tokensB tokens
  * @returns {number} levenshtein distance represented as a percentage normalized by the length of the longer one of the two tokens
  */
-export function levenshtein (tokensA, tokensB) {
+export function levenshtein (tokensA: string[], tokensB: string[]): number {
   const tokens1 = tokensA.filter(t => t)
   const tokens2 = tokensB.filter(t => t)
   if (tokens1.toString() === tokens2.toString()) {
@@ -17,10 +17,10 @@ export function levenshtein (tokensA, tokensB) {
   const n = tokens1.length
   const m = tokens2.length
 
-  let swap = []
+  let swap: number[] = []
   let cost = 0
-  let matP = [...Array(n + 1).keys()]
-  let matD = []
+  let matP = [...Array(n + 1)].map((_, i) => i)
+  let matD: number[] = []
   for (let j = 1; j <= m; j++) {
     const obj2j = tokens2[j - 1]
     matD[0] = j
@@ -48,9 +48,9 @@ export function levenshtein (tokensA, tokensB) {
  * @param {number} n number of grams
  * @returns {Array.<string>} An array of grams
  */
-export function ngram (text, n) {
-  const grams = []
-  let i
+export function ngram (text: string, n: number): string[] {
+  const grams: string[] = []
+  let i: number
   for (i = 0; i <= text.length - n; i++) {
     grams.push(text.substr(i, n).toLowerCase())
   }
@@ -67,7 +67,7 @@ export function ngram (text, n) {
  * @param {string} text2 text
  * @returns {number} dice coefficient
  */
-export function ngramDiceCoefficient (text1, text2) {
+export function ngramDiceCoefficient (text1: string, text2: string): number {
   if (text1 === text2) {
     return 100
   }
